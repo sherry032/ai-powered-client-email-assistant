@@ -1,0 +1,144 @@
+.cma-inline-panel {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 2147483647;
+  width: min(380px, calc(100vw - 32px));
+  max-height: min(720px, calc(100vh - 32px));
+  overflow: auto;
+  border: 1px solid #d8dee4;
+  border-radius: 8px;
+  box-shadow: 0 18px 48px rgba(23, 33, 43, .22);
+  background: #fff;
+  color: #17212b;
+  font: 14px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.cma-inline-panel[hidden] {
+  display: none;
+}
+
+.cma-inline-panel * {
+  box-sizing: border-box;
+}
+
+.cma-inline-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 14px 10px;
+  border-bottom: 1px solid #e8edf2;
+}
+
+.cma-inline-title {
+  margin: 0;
+  color: #17324d;
+  font-size: 15px;
+  font-weight: 850;
+}
+
+.cma-close {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 0;
+  border-radius: 8px;
+  color: #17324d;
+  background: #f1f4f7;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+}
+
+.cma-inline-body {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+}
+
+.cma-inline-body label {
+  display: grid;
+  gap: 5px;
+  color: #344150;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.cma-inline-body textarea,
+.cma-inline-body input,
+.cma-inline-body select {
+  width: 100%;
+  border: 1px solid #d8dee4;
+  border-radius: 8px;
+  padding: 9px;
+  color: #17212b;
+  background: #fff;
+  font: inherit;
+  resize: vertical;
+}
+
+.cma-inline-body textarea:focus,
+.cma-inline-body input:focus,
+.cma-inline-body select:focus {
+  border-color: #e46f4f;
+  outline: 2px solid rgba(228, 111, 79, .18);
+}
+
+.cma-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.cma-actions {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+.cma-button {
+  border: 0;
+  border-radius: 8px;
+  padding: 9px 12px;
+  color: #fff;
+  background: #17324d;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 850;
+}
+
+.cma-button.secondary {
+  color: #17324d;
+  background: #f1f4f7;
+}
+
+.cma-button:disabled {
+  color: #87919c;
+  background: #e7ebef;
+  cursor: not-allowed;
+}
+
+.cma-status {
+  min-height: 18px;
+  margin: 0;
+  color: #65717d;
+  font-size: 12px;
+}
+
+.cma-fab {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 2147483646;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 999px;
+  box-shadow: 0 10px 28px rgba(23, 33, 43, .22);
+  color: #fff;
+  background: #17324d;
+  cursor: pointer;
+  font: 22px/1 system-ui, sans-serif;
+}

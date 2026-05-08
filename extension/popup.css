@@ -1,0 +1,165 @@
+:root {
+  color-scheme: light;
+  --ink: #17212b;
+  --muted: #64707d;
+  --line: #d8dee4;
+  --surface: #ffffff;
+  --panel: #f5f7f9;
+  --accent: #e46f4f;
+  --accent-dark: #be4d32;
+  --navy: #17324d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 390px;
+  margin: 0;
+  color: var(--ink);
+  background: var(--surface);
+  font: 14px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.shell {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 12px;
+}
+
+.eyebrow {
+  margin: 0 0 2px;
+  color: var(--accent-dark);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 22px;
+  line-height: 1.15;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  color: #303b46;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+textarea,
+input,
+select {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px;
+  color: var(--ink);
+  background: #fff;
+  font: inherit;
+  font-weight: 500;
+  resize: vertical;
+}
+
+textarea:focus,
+input:focus,
+select:focus {
+  border-color: var(--accent);
+  outline: 2px solid rgba(228, 111, 79, .18);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+button {
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #fff;
+  background: var(--navy);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.text-button {
+  padding: 0;
+  border-radius: 0;
+  color: var(--accent-dark);
+  background: transparent;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.text-button:hover {
+  background: transparent;
+  color: var(--navy);
+}
+
+button:hover {
+  background: #244664;
+}
+
+button:disabled {
+  color: #87919c;
+  background: #e7ebef;
+  cursor: not-allowed;
+}
+
+.icon-button {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  padding: 0;
+  color: var(--navy);
+  background: var(--panel);
+}
+
+.icon-button:hover {
+  background: #e7edf2;
+}
+
+.result-wrap {
+  display: grid;
+  gap: 6px;
+}
+
+#result {
+  min-height: 150px;
+}
+
+.status {
+  min-height: 18px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}

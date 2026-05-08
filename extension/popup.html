@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Client Message Assistant</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="header">
+        <div>
+          <p class="eyebrow">Client Message Assistant</p>
+          <h1>Write the reply</h1>
+        </div>
+        <button id="settingsButton" class="icon-button" type="button" title="Settings" aria-label="Settings">Set</button>
+      </header>
+
+      <label>
+        <span class="label-row">
+          Client message or context
+          <button id="refreshContextButton" class="text-button" type="button">Refresh</button>
+        </span>
+        <textarea id="context" rows="5" placeholder="Paste the client’s note, project context, or tricky part of the conversation."></textarea>
+      </label>
+
+      <div class="grid">
+        <label>
+          Goal
+          <select id="intent">
+            <option>Reply with next steps</option>
+            <option>Ask for clarification</option>
+            <option>Send a proposal follow-up</option>
+            <option>Set a boundary</option>
+            <option>Handle a delay</option>
+            <option>Decline politely</option>
+            <option>Request payment</option>
+          </select>
+        </label>
+        <label>
+          Tone
+          <select id="tone">
+            <option value="warm">Warm</option>
+            <option value="direct">Direct</option>
+            <option value="polished">Polished</option>
+            <option value="friendly">Friendly</option>
+            <option value="firm">Firm</option>
+          </select>
+        </label>
+      </div>
+
+      <label>
+        Must include
+        <textarea id="points" rows="3" placeholder="Dates, deliverables, price, constraints, links, or the exact ask."></textarea>
+      </label>
+
+      <label>
+        Relationship
+        <input id="relationship" type="text" placeholder="New lead, active client, long-term client, overdue invoice...">
+      </label>
+
+      <div class="actions">
+        <button id="generateButton" type="button">Generate Draft</button>
+        <button id="insertButton" type="button" disabled>Insert</button>
+      </div>
+
+      <section class="result-wrap" aria-live="polite">
+        <textarea id="result" rows="8" placeholder="Your draft will appear here."></textarea>
+        <p id="status" class="status"></p>
+      </section>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>

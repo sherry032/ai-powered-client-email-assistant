@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Client Message Assistant Settings</title>
+    <link rel="stylesheet" href="options.css">
+  </head>
+  <body>
+    <main class="page">
+      <header>
+        <p class="eyebrow">Settings</p>
+        <h1>Client Message Assistant</h1>
+      </header>
+
+      <section>
+        <h2>Account</h2>
+        <p id="authStatus" class="note">Checking sign-in status...</p>
+        <p id="subscriptionStatus" class="note"></p>
+        <div class="actions compact">
+          <button id="signInButton" type="button">Sign In / Create Account</button>
+          <button id="signOutButton" class="secondary" type="button">Sign Out</button>
+        </div>
+      </section>
+
+      <section>
+        <h2>Backend</h2>
+        <label class="toggle">
+          <input id="useBackend" type="checkbox">
+          <span>Use backend for drafts</span>
+        </label>
+        <label>
+          Backend URL
+          <input id="backendUrl" type="url" autocomplete="off" placeholder="http://127.0.0.1:8000">
+        </label>
+        <label>
+          Model
+          <input id="model" type="text" placeholder="gpt-4.1-mini">
+        </label>
+        <p class="note">The OpenAI key stays on your backend. The extension stores only your app auth token locally.</p>
+      </section>
+
+      <section>
+        <h2>Writing Defaults</h2>
+        <label>
+          Default tone
+          <select id="tone">
+            <option value="warm">Warm</option>
+            <option value="direct">Direct</option>
+            <option value="polished">Polished</option>
+            <option value="friendly">Friendly</option>
+            <option value="firm">Firm</option>
+          </select>
+        </label>
+        <label>
+          Business profile
+          <textarea id="businessProfile" rows="5" placeholder="Example: I’m a freelance brand designer for early-stage founders. My voice is precise, kind, and practical."></textarea>
+        </label>
+        <label>
+          Signature
+          <textarea id="signature" rows="3" placeholder="Your default sign-off."></textarea>
+        </label>
+      </section>
+
+      <div class="actions">
+        <button id="saveButton" type="button">Save Settings</button>
+        <p id="status" role="status"></p>
+      </div>
+    </main>
+    <script src="options.js"></script>
+  </body>
+</html>
