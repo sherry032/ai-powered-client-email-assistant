@@ -5,11 +5,13 @@ description = "FastAPI backend for the Client Message Assistant Chrome extension
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+  "authlib==1.6.5",
   "bcrypt==5.0.0",
   "fastapi==0.115.6",
   "httpx==0.28.1",
   "python-dotenv==1.2.2",
   "sqlalchemy==2.0.45",
+  "itsdangerous==2.2.0",
   "uvicorn[standard]==0.34.0",
 ]
 

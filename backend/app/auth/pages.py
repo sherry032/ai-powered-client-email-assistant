@@ -91,6 +91,17 @@ def auth_page(redirect_uri: str) -> str:
         font-weight: 800;
         cursor: pointer;
       }}
+      .google {{
+        width: 100%;
+        color: #17212b;
+        background: #fff;
+        border: 1px solid #d8dee4;
+      }}
+      .divider {{
+        margin: 20px 0 4px;
+        color: #7a8794;
+        text-align: center;
+      }}
       .error {{ color: #be4d32; }}
     </style>
   </head>
@@ -98,6 +109,8 @@ def auth_page(redirect_uri: str) -> str:
     <main>
       <h1>Sign in</h1>
       <p>Log in or create an account to connect Client Message Assistant to this browser.</p>
+      <button id="google" class="google" type="button">Continue with Google</button>
+      <p class="divider">or use email</p>
       <div class="mode">
         <label><input name="mode" type="radio" value="login" checked> Log in</label>
         <label><input name="mode" type="radio" value="signup"> Create account</label>
@@ -113,10 +126,14 @@ def auth_page(redirect_uri: str) -> str:
     </main>
     <script>
       const redirectUri = "{safe_redirect}";
+      const google = document.querySelector("#google");
       const email = document.querySelector("#email");
       const password = document.querySelector("#password");
       const button = document.querySelector("#connect");
       const status = document.querySelector("#status");
+      google.addEventListener("click", () => {{
+        window.location.href = `/extension/auth/google/start?redirect_uri=${{encodeURIComponent(redirectUri)}}`;
+      }});
       button.addEventListener("click", async () => {{
         status.textContent = "Connecting...";
         status.className = "";

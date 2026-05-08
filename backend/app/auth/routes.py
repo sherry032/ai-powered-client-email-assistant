@@ -2,9 +2,10 @@ import logging
 import secrets
 import time
 from typing import Any
+from urllib.parse import urlencode
 
-from fastapi import APIRouter, Depends, Header, HTTPException, Query, status
-from fastapi.responses import HTMLResponse
+from fastapi import APIRouter, Depends, Header, HTTPException, Query, Request, status
+from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -19,9 +20,11 @@ from app.auth.models import (
     SubscriptionResponse,
 )
 from app.auth.pages import auth_page, pairing_page
+from app.auth.oauth import google_client_configured, oauth
 from app.auth.service import (
     authenticate_user,
     create_user,
+    get_or_create_oauth_user,
     get_or_create_pairing_user,
     is_subscription_valid,
     issue_extension_token,
@@ -46,6 +49,55 @@ def extension_connect() -> str:
 @router.get("/extension/auth", response_class=HTMLResponse)
 def extension_auth(redirect_uri: str = Query(..., min_length=10, max_length=500)) -> str:
     return auth_page(redirect_uri)
+
+
+@router.get("/extension/auth/google/start")
+async def google_auth_start(
+    request: Request,
+    redirect_uri: str = Query(..., min_length=10, max_length=500),
+) -> RedirectResponse:
+    if not google_client_configured():
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Google sign-in is not configured on this server.",
+        )
+
+    request.session["extension_redirect_uri"] = redirect_uri
+    callback_url = str(request.url_for("google_auth_callback"))
+    return await oauth.google.authorize_redirect(request, callback_url)
+
+
+@router.get("/extension/auth/google/callback", name="google_auth_callback")
+async def google_auth_callback(
+    request: Request,
+    session: Session = Depends(get_db),
+) -> RedirectResponse:
+    token = await oauth.google.authorize_access_token(request)
+    userinfo = token.get("userinfo") or {}
+    email = userinfo.get("email")
+    email_verified = userinfo.get("email_verified")
+
+    if not email or email_verified is False:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Google account email is missing or unverified.",
+        )
+
+    extension_redirect_uri = request.session.pop("extension_redirect_uri", None)
+    if not extension_redirect_uri:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Missing extension redirect URI. Please start sign-in again.",
+        )
+
+    user = get_or_create_oauth_user(session, email)
+    response = issue_extension_token(session, user)
+    params = urlencode({
+        "token": response.token,
+        "email": response.user["email"],
+        "user_id": response.user["id"],
+    })
+    return RedirectResponse(f"{extension_redirect_uri}#{params}")
 
 
 @router.post("/v1/extension/auth-token", response_model=ExchangeCodeResponse)

@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Client Message Assistant",
   "description": "Draft clear, professional client replies for independent professionals.",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "action": {
     "default_title": "Client Message Assistant",
     "default_popup": "popup.html",

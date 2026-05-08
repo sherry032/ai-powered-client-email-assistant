@@ -12,6 +12,18 @@ cp .env.example .env
 
 Edit `.env` with your server-side `OPENAI_API_KEY`. `APP_API_TOKEN` is optional for manual API testing and local dev subscription updates.
 
+For Google sign-in, also set:
+
+- `SESSION_SECRET_KEY` - a long random secret used by the OAuth session cookie.
+- `GOOGLE_CLIENT_ID` - Google OAuth web client ID.
+- `GOOGLE_CLIENT_SECRET` - Google OAuth web client secret.
+
+In Google Cloud Console, add this backend callback URL to your OAuth web client:
+
+```text
+http://127.0.0.1:8000/extension/auth/google/callback
+```
+
 Run:
 
 ```bash
@@ -29,7 +41,7 @@ Connect the extension:
 1. Open the Chrome extension settings.
 2. Set backend URL to `http://127.0.0.1:8000`.
 3. Click **Sign In / Create Account**.
-4. Log in or create an account with email and password.
+4. Continue with Google, or log in/create an account with email and password.
 5. Chrome returns to the extension automatically and stores the token.
 
 The older pairing-code page is still available at `http://127.0.0.1:8000/extension/connect` as a fallback.

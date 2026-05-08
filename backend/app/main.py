@@ -2,6 +2,7 @@ import logging
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.sessions import SessionMiddleware
 
 from app.auth.routes import router as auth_router
 from app.core.config import origins_to_regex, settings
@@ -25,6 +26,8 @@ app.add_middleware(
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["Authorization", "Content-Type", "X-Client-Version", "X-Request-ID"],
 )
+
+app.add_middleware(SessionMiddleware, secret_key=settings.session_secret_key)
 
 app.include_router(auth_router)
 app.include_router(drafts_router)

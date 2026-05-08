@@ -151,6 +151,14 @@ def get_or_create_pairing_user(session: Session, email: str) -> User:
     return create_user(session, normalized_email, secrets.token_urlsafe(18))
 
 
+def get_or_create_oauth_user(session: Session, email: str) -> User:
+    normalized_email = normalize_email(email)
+    user = session.scalar(select(User).where(User.email == normalized_email))
+    if user:
+        return user
+    return create_user(session, normalized_email, secrets.token_urlsafe(24))
+
+
 def issue_extension_token(session: Session, user: User) -> ExchangeCodeResponse:
     token = issue_token_for_user(session, user)
     return ExchangeCodeResponse(token=token, user={"id": user.id, "email": user.email})

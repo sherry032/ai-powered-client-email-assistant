@@ -30,6 +30,8 @@ Edit `backend/.env` and set:
 
 - `OPENAI_API_KEY` - your server-side OpenAI API key.
 - `APP_API_TOKEN` - optional dev token for manual API testing.
+- `SESSION_SECRET_KEY` - a long random secret for OAuth session cookies.
+- `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` - optional, required for Google sign-in.
 
 Run the API:
 
@@ -42,7 +44,7 @@ Then open the extension settings:
 - Enable **Use backend for drafts**.
 - Set backend URL to `http://127.0.0.1:8000`.
 - Click **Sign In / Create Account**.
-- Log in or create an account with email and password.
+- Continue with Google, or log in/create an account with email and password.
 - Chrome returns to the extension automatically and stores the token.
 
 ## Files
@@ -59,3 +61,18 @@ Then open the extension settings:
 The extension should not store your OpenAI API key. The included backend keeps `OPENAI_API_KEY` server-side and uses Chrome's web auth flow to issue extension auth tokens.
 
 The backend stores users, password hashes, extension tokens, subscription status, and usage events in SQLite. New signups receive a trial based on `SIGNUP_TRIAL_DAYS`; draft generation requires an `active` or `trialing` subscription. Before shipping, replace the dev subscription endpoint with Stripe or another billing provider, add token revocation UI, and meter usage per plan.
+
+Chrome Extension
+  -> opens your React web app for login/signup/billing
+  -> receives extension token via Chrome Identity callback
+
+React Web App
+  -> signup/login
+  -> pricing/checkout
+  -> account/subscription dashboard
+
+Python Backend
+  -> auth API
+  -> Stripe webhooks
+  -> subscription checks
+  -> OpenAI API calls

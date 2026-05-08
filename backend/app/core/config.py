@@ -30,6 +30,9 @@ class Settings:
         self.request_timeout_seconds = float(os.getenv("OPENAI_TIMEOUT_SECONDS", "45"))
         self.database_path = os.getenv("DATABASE_PATH", "client_message_assistant.sqlite3")
         self.signup_trial_days = int(os.getenv("SIGNUP_TRIAL_DAYS", "14"))
+        self.session_secret_key = os.getenv("SESSION_SECRET_KEY", "dev-change-me")
+        self.google_client_id = os.getenv("GOOGLE_CLIENT_ID", "")
+        self.google_client_secret = os.getenv("GOOGLE_CLIENT_SECRET", "")
 
 
 settings = Settings()
