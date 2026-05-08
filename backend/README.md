@@ -70,3 +70,17 @@ curl http://127.0.0.1:8000/dev/subscription \
 - Add token revocation UI.
 - Store usage per user for billing and plan limits.
 - Avoid storing raw email content unless the user explicitly opts in.
+
+## Backend Structure
+
+- `app/main.py` - FastAPI app assembly, middleware, and router registration.
+- `app/core/config.py` - Environment-backed settings.
+- `app/core/database.py` - SQLAlchemy engine, sessions, ORM models, and schema initialization.
+- `app/auth/models.py` - Reusable auth and subscription request/response models.
+- `app/auth/security.py` - Password and token hashing helpers.
+- `app/auth/service.py` - Reusable SQLAlchemy-backed auth, token, subscription, and usage service functions.
+- `app/auth/routes.py` - Reusable auth routes for Chrome extension sign-in and subscription status.
+- `app/auth/pages.py` - Minimal auth HTML pages for the current MVP.
+- `app/drafts.py` - App-specific client message drafting routes and OpenAI calls.
+
+To reuse auth in another FastAPI app, copy `app/auth` plus `app/core/config.py` and `app/core/database.py`, then include `app.auth.routes.router` and use `Depends(app.auth.service.require_auth)` to protect routes.
