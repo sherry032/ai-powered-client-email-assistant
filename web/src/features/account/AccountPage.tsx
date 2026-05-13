@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { CreditCard, LogOut, RefreshCw } from "lucide-react";
+import { Activity, CreditCard, LogOut, RefreshCw } from "lucide-react";
 import { Badge } from "../../components/ui/badge";
 import { Button } from "../../components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card";
@@ -30,11 +30,12 @@ export function AccountPage({ user, subscription, onRefresh, onSignOut, onPricin
     : "Not available";
 
   return (
-    <div className="grid gap-5">
+    <div className="grid gap-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-semibold tracking-normal text-slate-900">Account</h1>
-          <p className="mt-1 text-slate-600">{user.email}</p>
+          <p className="font-mono text-sm font-semibold uppercase text-primary">Dashboard</p>
+          <h1 className="mt-2 text-[2.5rem] font-semibold leading-none text-ink">Account</h1>
+          <p className="mt-2 text-lg text-ink/60">{user.email}</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <Button variant="secondary" onClick={onRefresh}>
@@ -53,16 +54,16 @@ export function AccountPage({ user, subscription, onRefresh, onSignOut, onPricin
           <Badge variant={valid ? "success" : "destructive"}>{subscription?.status || "Unknown"}</Badge>
         </Metric>
         <Metric label="Current period ends">
-          <strong className="text-lg font-semibold text-slate-900">{periodEnd}</strong>
+          <strong className="text-2xl font-semibold text-ink">{periodEnd}</strong>
         </Metric>
         <Metric label="Extension access">
-          <strong className="text-lg font-semibold text-slate-900">{valid ? "Enabled" : "Disabled"}</strong>
+          <strong className="text-2xl font-semibold text-ink">{valid ? "Enabled" : "Disabled"}</strong>
         </Metric>
       </section>
 
-      <Card className="max-w-3xl">
+      <Card className="ai-card-hover max-w-3xl bg-white/95 backdrop-blur">
         <CardHeader className="flex-row items-start gap-3">
-          <div className="grid size-10 place-items-center rounded-lg bg-slate-100 text-slate-900">
+          <div className="grid size-10 place-items-center rounded-md bg-primary/10 text-primary">
             <CreditCard size={22} />
           </div>
           <div className="grid gap-1">
@@ -76,15 +77,41 @@ export function AccountPage({ user, subscription, onRefresh, onSignOut, onPricin
           <Button onClick={onPricing}>{valid ? "Change plan" : "View pricing"}</Button>
         </CardContent>
       </Card>
+
+      <Card className="ai-panel max-w-3xl bg-white/95">
+        <CardHeader className="relative z-10 flex-row items-start gap-3">
+          <div className="grid size-10 place-items-center rounded-md bg-primary/10 text-primary">
+            <Activity size={22} />
+          </div>
+          <div className="grid gap-1">
+            <CardTitle>Reply engine</CardTitle>
+            <CardDescription>Account-linked generation status for your Chrome extension.</CardDescription>
+          </div>
+        </CardHeader>
+        <CardContent className="relative z-10 grid gap-3">
+          {["Context capture", "Subscription gate", "Draft generation"].map((item, index) => (
+            <div key={item} className="grid gap-2 rounded-md border border-ink/10 bg-secondary p-3">
+              <div className="flex items-center justify-between gap-3">
+                <span className="font-mono text-sm font-semibold uppercase text-ink/60">{item}</span>
+                <span className="font-mono text-xs font-semibold uppercase text-primary">Ready</span>
+              </div>
+              <span
+                className="h-1.5 rounded-full bg-primary ai-pulse-line"
+                style={{ animationDelay: `${index * 220}ms` }}
+              />
+            </div>
+          ))}
+        </CardContent>
+      </Card>
     </div>
   );
 }
 
 function Metric({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <Card>
+    <Card className="ai-card-hover bg-white/95 backdrop-blur">
       <CardContent className="grid gap-2 p-5">
-        <span className="text-sm font-medium text-slate-500">{label}</span>
+        <span className="font-mono text-sm font-semibold uppercase text-ink/50">{label}</span>
         {children}
       </CardContent>
     </Card>

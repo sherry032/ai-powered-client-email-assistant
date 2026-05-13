@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Mail } from "lucide-react";
+import { Bot, Mail } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useDashboardStore } from "../../store/dashboardStore";
 import { buttonVariants, Button } from "../ui/button";
@@ -18,8 +18,8 @@ export function AppShell({ children }: AppShellProps) {
   const status = useDashboardStore((state) => state.status);
 
   return (
-    <main className="grid min-h-screen bg-slate-100 text-slate-950 lg:grid-cols-[280px_1fr]">
-      <aside className="flex flex-col gap-6 border-b border-slate-200 bg-white p-6 lg:border-b-0 lg:border-r">
+    <main className="ai-grid grid min-h-screen bg-secondary text-ink lg:grid-cols-[304px_1fr]">
+      <aside className="flex flex-col gap-6 border-b border-ink/10 bg-white/92 p-6 backdrop-blur lg:border-b-0 lg:border-r">
         <Brand />
         <Navigation isSignedIn={isSignedIn} />
 
@@ -28,10 +28,24 @@ export function AppShell({ children }: AppShellProps) {
           <Input value={apiBaseUrl} onChange={(event) => setApiBaseUrl(event.target.value)} />
         </Label>
 
-        {status && <p className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-600">{status}</p>}
+        <div className="mt-auto grid gap-3">
+          <div className="ai-panel rounded-md border border-primary/20 bg-secondary p-3">
+            <div className="relative z-10 flex items-center gap-2 font-mono text-xs font-semibold uppercase text-ink/60">
+              <Bot size={14} className="text-primary" />
+              Agent status
+            </div>
+            <div className="relative z-10 mt-3 grid gap-2">
+              <span className="h-1 rounded-full bg-primary ai-pulse-line" />
+              <span className="h-1 w-3/4 rounded-full bg-ink/20 ai-pulse-line [animation-delay:320ms]" />
+            </div>
+          </div>
+          {status && <p className="rounded-md border border-primary/20 bg-primary/5 px-3 py-2 text-base text-ink/70">{status}</p>}
+        </div>
       </aside>
 
-      <section className="p-6 sm:p-8 lg:p-10">{children}</section>
+      <section className="p-6 sm:p-8 lg:p-10">
+        <div className="ai-rise">{children}</div>
+      </section>
     </main>
   );
 }
@@ -39,12 +53,12 @@ export function AppShell({ children }: AppShellProps) {
 function Brand() {
   return (
     <div className="flex items-center gap-3">
-      <div className="grid size-10 place-items-center rounded-lg bg-slate-900 text-white">
+      <div className="grid size-10 place-items-center rounded-md bg-primary text-white shadow-[0_0_28px_rgba(255,87,1,0.35)]">
         <Mail size={20} />
       </div>
       <div>
-        <strong className="block leading-tight">Client Message Assistant</strong>
-        <span className="block text-sm text-slate-500">For independent professionals</span>
+        <strong className="block text-lg leading-tight">Client Message Assistant</strong>
+        <span className="block font-mono text-xs font-semibold uppercase text-ink/50">For independent professionals</span>
       </div>
     </div>
   );
