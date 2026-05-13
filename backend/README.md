@@ -108,6 +108,7 @@ curl http://127.0.0.1:8000/dev/subscription \
 - `app/auth/service.py` - Reusable SQLAlchemy-backed auth, token, subscription, and usage service functions.
 - `app/auth/routes.py` - Reusable auth routes for Chrome extension sign-in and subscription status.
 - `app/auth/pages.py` - Minimal auth HTML pages for the current MVP.
-- `app/drafts.py` - App-specific client message drafting routes and OpenAI calls.
+- `app/client_messages/routes.py` - App-specific client message reply generation routes and OpenAI calls.
+- `app/billing/routes.py` - Billing checkout and portal routes for the MVP.
 
 To reuse auth in another FastAPI app, copy `app/auth` plus `app/core/config.py` and `app/core/database.py`, then include `app.auth.routes.router` and use `Depends(app.auth.service.require_auth)` to protect routes.

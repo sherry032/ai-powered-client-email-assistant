@@ -17,11 +17,11 @@ from app.core.database import get_db
 OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses"
 
 router = APIRouter()
-logger = logging.getLogger("client-message-assistant.drafts")
+logger = logging.getLogger("client-message-assistant.client_messages")
 request_windows: dict[str, deque[float]] = defaultdict(deque)
 
 
-class DraftRequest(BaseModel):
+class ClientReplyRequest(BaseModel):
     context: str = Field(default="", max_length=12000)
     intent: str = Field(default="Reply with next steps", max_length=120)
     tone: str = Field(default="warm", max_length=40)
@@ -33,7 +33,7 @@ class DraftRequest(BaseModel):
     source_url: HttpUrl | None = None
 
 
-class DraftResponse(BaseModel):
+class ClientReplyResponse(BaseModel):
     reply: str
     model: str
     usage: dict[str, Any] = Field(default_factory=dict)
@@ -54,13 +54,13 @@ def enforce_rate_limit(subject: str) -> None:
     window.append(now)
 
 
-@router.post("/v1/draft-client-reply", response_model=DraftResponse)
-async def draft_client_reply(
-    payload: DraftRequest,
+@router.post("/v1/draft-client-reply", response_model=ClientReplyResponse)
+async def generate_client_reply(
+    payload: ClientReplyRequest,
     request: Request,
     user: AuthUser = Depends(require_auth),
     session: Session = Depends(get_db),
-) -> DraftResponse:
+) -> ClientReplyResponse:
     request_id = request.headers.get("x-request-id", "-")
     logger.info(
         "draft request received request_id=%s user_id=%s origin=%s context_chars=%s intent=%s",
@@ -100,14 +100,14 @@ async def draft_client_reply(
         data.get("model") or clean_payload.model or settings.openai_model,
     )
     record_usage(session, user.id, "draft_generated", f"request_id={request_id}")
-    return DraftResponse(
+    return ClientReplyResponse(
         reply=reply.strip(),
         model=data.get("model") or clean_payload.model or settings.openai_model,
         usage=data.get("usage") or {},
     )
 
 
-async def call_openai(payload: DraftRequest, request_id: str = "-") -> dict[str, Any]:
+async def call_openai(payload: ClientReplyRequest, request_id: str = "-") -> dict[str, Any]:
     model = payload.model or settings.openai_model
     body = {
         "model": model,
@@ -146,7 +146,7 @@ async def call_openai(payload: DraftRequest, request_id: str = "-") -> dict[str,
     return response.json()
 
 
-def system_instructions(payload: DraftRequest) -> str:
+def system_instructions(payload: ClientReplyRequest) -> str:
     parts = [
         "You help independent professionals write client emails and web messages.",
         "Write in a clear, confident, human voice. Avoid corporate filler.",
@@ -161,7 +161,7 @@ def system_instructions(payload: DraftRequest) -> str:
     return "\n".join(parts)
 
 
-def user_prompt(payload: DraftRequest) -> str:
+def user_prompt(payload: ClientReplyRequest) -> str:
     return "\n\n".join([
         f"Task: {payload.intent or 'Draft a client response'}",
         f"Tone: {payload.tone or 'warm'}",
