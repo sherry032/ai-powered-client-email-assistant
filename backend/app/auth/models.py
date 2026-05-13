@@ -45,3 +45,13 @@ class DevSubscriptionUpdate(BaseModel):
     email: str = Field(min_length=3, max_length=254)
     status: str = Field(pattern="^(active|trialing|past_due|canceled|inactive)$")
     days: int = Field(default=30, ge=-365, le=3650)
+
+
+class CheckoutRequest(BaseModel):
+    plan: str = Field(pattern="^(solo|studio)$")
+
+
+class CheckoutResponse(BaseModel):
+    status: str
+    plan: str
+    subscription: SubscriptionResponse

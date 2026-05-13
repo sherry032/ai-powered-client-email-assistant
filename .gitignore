@@ -6,3 +6,7 @@ backend/.env
 backend/.venv/
 backend/*.sqlite3
 backend/*.sqlite3-*
+node_modules/
+dist/
+web/node_modules/
+web/dist/

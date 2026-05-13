@@ -23,7 +23,7 @@ class Settings:
         self.openai_model = os.getenv("OPENAI_MODEL", "gpt-4.1-mini")
         self.api_token = os.getenv("APP_API_TOKEN", "")
         self.allowed_origins = parse_csv(
-            os.getenv("ALLOWED_ORIGINS", "chrome-extension://*,http://localhost:*")
+            os.getenv("ALLOWED_ORIGINS", "chrome-extension://*,http://localhost:*,http://127.0.0.1:*")
         )
         self.rate_limit_per_hour = int(os.getenv("RATE_LIMIT_PER_HOUR", "120"))
         self.max_context_chars = int(os.getenv("MAX_CONTEXT_CHARS", "6000"))

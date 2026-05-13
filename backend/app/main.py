@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 
 from app.auth.routes import router as auth_router
+from app.billing import router as billing_router
 from app.core.config import origins_to_regex, settings
 from app.core.database import init_db
 from app.drafts import router as drafts_router
@@ -30,6 +31,7 @@ app.add_middleware(
 app.add_middleware(SessionMiddleware, secret_key=settings.session_secret_key)
 
 app.include_router(auth_router)
+app.include_router(billing_router)
 app.include_router(drafts_router)
 
 

@@ -49,12 +49,23 @@ Then open the extension settings:
 
 ## Files
 
+- `web/` - React account, pricing, and subscription dashboard.
 - `extension/manifest.json` - Chrome extension manifest.
 - `extension/background.js` - Context menus, keyboard shortcut, and OpenAI/fallback drafting.
 - `extension/content.js` - Floating assistant and insertion into message fields.
 - `extension/popup.html`, `extension/popup.css`, `extension/popup.js` - Browser action popup.
 - `extension/options.html`, `extension/options.css`, `extension/options.js` - User settings.
 - `backend/app/main.py` - FastAPI backend with OpenAI proxying, auth, CORS, validation, and rate limiting.
+
+## Run The React Web App
+
+```bash
+cd /Users/sherryli/ai-email/web
+npm install
+npm run dev
+```
+
+Open `http://127.0.0.1:5173`. The web app expects the backend at `http://127.0.0.1:8000` by default.
 
 ## Production Notes
 

@@ -12,6 +12,12 @@ cp .env.example .env
 
 Edit `.env` with your server-side `OPENAI_API_KEY`. `APP_API_TOKEN` is optional for manual API testing and local dev subscription updates.
 
+For the local React app, keep both browser dev origins in `ALLOWED_ORIGINS`:
+
+```text
+ALLOWED_ORIGINS=chrome-extension://*,http://localhost:*,http://127.0.0.1:*
+```
+
 For Google sign-in, also set:
 
 - `SESSION_SECRET_KEY` - a long random secret used by the OAuth session cookie.
@@ -58,6 +64,15 @@ curl http://127.0.0.1:8000/v1/draft-client-reply \
     "tone": "warm",
     "points": "Confirm Friday is possible if feedback arrives by Wednesday."
   }'
+```
+
+Mock checkout endpoint:
+
+```bash
+curl http://127.0.0.1:8000/v1/billing/checkout \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer your-extension-token" \
+  -d '{"plan": "solo"}'
 ```
 
 Dev subscription update:
